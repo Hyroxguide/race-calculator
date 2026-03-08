@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hyroxguide.kr/sitemap.xml
+
+# Disallow admin paths (if any in future)
+Disallow: /admin/
+Disallow: /*.json$
+Disallow: /temp_*
+
+# Crawl-delay
+Crawl-delay: 1

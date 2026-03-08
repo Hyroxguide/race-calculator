@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>하이록스 기록 계산기</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="images/logo.png" alt="HYROX Guide" class="logo-img">
+                <h1>하이록스 기록 계산기</h1>
+            </div>
+            <a href="https://www.instagram.com/hyrox.guide.kr" target="_blank" class="instagram">
+                <i class="fab fa-instagram"></i> @hyrox.guide.kr
+            </a>
+            <p class="subtitle">2025 서울(코엑스) 오픈 싱글 평균 기준</p>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="container">
+        <!-- Controls -->
+        <section class="card">
+            <div class="controls">
+                <div class="control-group">
+                    <label>디비전</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="division" value="men" checked> 남자</label>
+                        <label><input type="radio" name="division" value="women"> 여자</label>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label>입력 모드</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="mode" value="simple" checked> 초보 모드</label>
+                        <label><input type="radio" name="mode" value="advanced"> 상세 모드</label>
+                    </div>
+                </div>
+            </div>
+            <div class="buttons">
+                <button id="fillBtn" class="btn btn-primary">평균값으로 채우기</button>
+                <button id="resetBtn" class="btn btn-secondary">초기화</button>
+            </div>
+        </section>
+
+        <!-- Simple Mode -->
+        <section id="simpleMode" class="card">
+            <h2>기록 입력</h2>
+            
+            <div class="input-group">
+                <label>1km 평균 기록</label>
+                <div class="time-inputs">
+                    <input type="number" id="runMin" min="0" max="30" value="5" class="time-input">
+                    <span>:</span>
+                    <input type="number" id="runSec" min="0" max="59" value="30" class="time-input">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>록스존 총합</label>
+                <div class="time-inputs">
+                    <input type="number" id="roxzoneMin" min="0" max="30" value="7" class="time-input">
+                    <span>:</span>
+                    <input type="number" id="roxzoneSec" min="0" max="59" value="43" class="time-input">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>스테이션 총합</label>
+                <div class="time-inputs">
+                    <input type="number" id="stationsMin" min="0" max="90" value="36" class="time-input">
+                    <span>:</span>
+                    <input type="number" id="stationsSec" min="0" max="59" value="1" class="time-input">
+                </div>
+            </div>
+        </section>
+
+        <!-- Advanced Mode -->
+        <section id="advancedMode" class="card" style="display: none;">
+            <h2>상세 기록 입력</h2>
+            
+            <h3>런 (1km × 8회)</h3>
+            <div class="advanced-grid">
+                <div class="input-group-small">
+                    <label>1회차</label>
+                    <div class="time-inputs">
+                        <input type="number" class="run-min time-input-small" min="0" max="30" value="0">
+                        <span>:</span>
+                        <input type="number" class="run-sec time-input-small" min="0" max="59" value="0">
+                    </div>
+                </div>
+                <div class="input-group-small">
+                    <label>2회차</label>
+                    <div class="time-inputs">
+                        <input type="number" class="run-min time-input-small" min="0" max="30" value="0">
+                        <span>:</span>
+                        <input type="number" class="run-sec time-input-small" min="0" max="59" value="0">
+                    </div>
+                </div>
+                <div class="input-group-small">
+                    <label>3회차</label>
+                    <div class="time-inputs">
+                        <input type="number" class="run-min time-input-small" min="0" max="30" value="0">
+                        <span>:</span>
+                        <input type="number" class="run-sec time-input-small" min="0" max="59" value="0">
+                    </div>
+                </div>
+                <div class="input-group-small">
+                    <label>4회차</label>
+                    <div class="time-inputs">
+                        <input type="number" class="run-min time-input-small" min="0" max="30" value="0">
+                        <span>:</span>
+                        <input type="number" class="run-sec time-input-small" min="0" max="59" value="0">
+                    </div>
+                </div>
+                <div class="input-group-small">
+                    <label>5회차</label>
+                    <div class="time-inputs">
+                        <input type="number" class="run-min time-input-small" min="0" max="30" value="0">
+                        <span>:</span>
+                        <input type="number" class="run-sec time-input-small" min="0" max="59" value="0">
+                    </div>
+                </div>
+                <div class="input-group-small">
+                    <label>6회차</label>
+                    <div class="time-inputs">
+                        <input type="number" class="run-min time-input-small" min="0" max="30" value="0">
+                        <span>:</span>
+                        <input type="number" class="run-sec time-input-small" min="0" max="59" value="0">
+                    </div>
+                </div>
+                <div class="input-group-small">
+                    <label>7회차</label>
+                    <div class="time-inputs">
+                        <input type="number" class="run-min time-input-small" min="0" max="30" value="0">
+                        <span>:</span>
+                        <input type="number" class="run-sec time-input-small" min="0" max="59" value="0">
+                    </div>
+                </div>
+                <div class="input-group-small">
+                    <label>8회차</label>
+                    <div class="time-inputs">
+                        <input type="number" class="run-min time-input-small" min="0" max="30" value="0">
+                        <span>:</span>
+                        <input type="number" class="run-sec time-input-small" min="0" max="59" value="0">
+                    </div>
+                </div>
+            </div>
+
+            <h3>스테이션 (8개)</h3>
+            <div class="advanced-grid">
+                <div class="input-group-small">
+                    <label>SkiErg</label>
+                    <div class="time-inputs">
+                        <input type="number" class="station-min time-input-small" min="0" max="30" value="0">
+                        <span>:</span>
+                        <input type="number" class="station-sec time-input-small" min="0" max="59" value="0">
+                    </div>
+                </div>
+                <div class="input-group-small">
+                    <label>Sled Push</label>
+                    <div class="time-inputs">
+                        <input type="number" class="station-min time-input-small" min="0" max="30" value="0">
+                        <span>:</span>
+                        <input type="number" class="station-sec time-input-small" min="0" max="59" value="0">
+                    </div>
+                </div>
+                <div class="input-group-small">
+                    <label>Sled Pull</label>
+                    <div class="time-inputs">
+                        <input type="number" class="station-min time-input-small" min="0" max="30" value="0">
+                        <span>:</span>
+                        <input type="number" class="station-sec time-input-small" min="0" max="59" value="0">
+                    </div>
+                </div>
+                <div class="input-group-small">
+                    <label>Burpees</label>
+                    <div class="time-inputs">
+                        <input type="number" class="station-min time-input-small" min="0" max="30" value="0">
+                        <span>:</span>
+                        <input type="number" class="station-sec time-input-small" min="0" max="59" value="0">
+                    </div>
+                </div>
+                <div class="input-group-small">
+                    <label>Row</label>
+                    <div class="time-inputs">
+                        <input type="number" class="station-min time-input-small" min="0" max="30" value="0">
+                        <span>:</span>
+                        <input type="number" class="station-sec time-input-small" min="0" max="59" value="0">
+                    </div>
+                </div>
+                <div class="input-group-small">
+                    <label>Farmers Carry</label>
+                    <div class="time-inputs">
+                        <input type="number" class="station-min time-input-small" min="0" max="30" value="0">
+                        <span>:</span>
+                        <input type="number" class="station-sec time-input-small" min="0" max="59" value="0">
+                    </div>
+                </div>
+                <div class="input-group-small">
+                    <label>Lunges</label>
+                    <div class="time-inputs">
+                        <input type="number" class="station-min time-input-small" min="0" max="30" value="0">
+                        <span>:</span>
+                        <input type="number" class="station-sec time-input-small" min="0" max="59" value="0">
+                    </div>
+                </div>
+                <div class="input-group-small">
+                    <label>Wall Balls</label>
+                    <div class="time-inputs">
+                        <input type="number" class="station-min time-input-small" min="0" max="30" value="0">
+                        <span>:</span>
+                        <input type="number" class="station-sec time-input-small" min="0" max="59" value="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>록스존 총합</label>
+                <div class="time-inputs">
+                    <input type="number" id="roxzoneMinAdv" min="0" max="30" value="0" class="time-input">
+                    <span>:</span>
+                    <input type="number" id="roxzoneSecAdv" min="0" max="59" value="0" class="time-input">
+                </div>
+            </div>
+        </section>
+
+        <!-- Result -->
+        <section class="card">
+            <h2>예상 완주 기록</h2>
+            <div class="result">
+                <div class="predicted-time" id="predictedTime">00:00:00</div>
+                <div class="comparison" id="comparison">평균과 비교</div>
+            </div>
+            
+            <h3>구간별 비중</h3>
+            <div class="breakdown">
+                <div class="breakdown-item">
+                    <span>런</span>
+                    <span id="runBreakdown">--:--</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>록스존</span>
+                    <span id="roxzoneBreakdown">--:--</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>스테이션</span>
+                    <span id="stationsBreakdown">--:--</span>
+                </div>
+            </div>
+
+            <button id="shareBtn" class="btn btn-primary btn-full">결과 복사하기</button>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 HYROX Guide Korea</p>
+            <p>
+                <a href="https://www.instagram.com/hyrox.guide.kr" target="_blank">Instagram</a> | 
+                <a href="https://hybridathleteclub.com/average-hyrox-times/season_8" target="_blank">데이터 출처</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
