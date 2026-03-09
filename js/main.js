@@ -92,53 +92,65 @@ function fillAverageValues() {
     const avgData = AVERAGES[division];
 
     if (mode === 'simple') {
-        // Calculate average 1km pace
         const runTotalSec = timeToSeconds(avgData.run.min, avgData.run.sec);
         const runPaceSec = Math.round(runTotalSec / 8);
         const runPaceMin = Math.floor(runPaceSec / 60);
         const runPaceSecRem = runPaceSec % 60;
-        
+
         document.getElementById('runMin').value = runPaceMin;
         document.getElementById('runSec').value = runPaceSecRem;
         document.getElementById('roxzoneMin').value = avgData.roxzone.min;
         document.getElementById('roxzoneSec').value = avgData.roxzone.sec;
         document.getElementById('stationsMin').value = avgData.stations.min;
         document.getElementById('stationsSec').value = avgData.stations.sec;
+
+        // 드럼 동기화
+        setDrumValue('runMin', runPaceMin);
+        setDrumValue('runSec', runPaceSecRem);
+        setDrumValue('roxzoneMin', avgData.roxzone.min);
+        setDrumValue('roxzoneSec', avgData.roxzone.sec);
+        setDrumValue('stationsMin', avgData.stations.min);
+        setDrumValue('stationsSec', avgData.stations.sec);
     } else {
-        // Advanced mode: fill each run with average pace
         const runTotalSec = timeToSeconds(avgData.run.min, avgData.run.sec);
         const runPaceSec = Math.round(runTotalSec / 8);
         const runPaceMin = Math.floor(runPaceSec / 60);
         const runPaceSecRem = runPaceSec % 60;
-        
-        // Fill all 8 runs
+
         const runMins = document.querySelectorAll('.run-min');
         const runSecs = document.querySelectorAll('.run-sec');
         runMins.forEach(input => input.value = runPaceMin);
         runSecs.forEach(input => input.value = runPaceSecRem);
 
-        // Fill stations
         const stationMins = document.querySelectorAll('.station-min');
         const stationSecs = document.querySelectorAll('.station-sec');
         const stationKeys = ['skierg', 'sledpush', 'sledpull', 'burpees', 'row', 'farmerscarry', 'lunges', 'wallballs'];
-        
         stationMins.forEach((input, index) => {
-            const stationKey = stationKeys[index];
-            input.value = avgData.stationDetails[stationKey].min;
+            input.value = avgData.stationDetails[stationKeys[index]].min;
         });
-        
         stationSecs.forEach((input, index) => {
-            const stationKey = stationKeys[index];
-            input.value = avgData.stationDetails[stationKey].sec;
+            input.value = avgData.stationDetails[stationKeys[index]].sec;
         });
 
-        // Fill roxzone
         document.getElementById('roxzoneMinAdv').value = avgData.roxzone.min;
         document.getElementById('roxzoneSecAdv').value = avgData.roxzone.sec;
+
+        // 드럼 동기화
+        runMins.forEach((_, i) => {
+            setDrumValue(`run-min_${i}_min`, runPaceMin);
+            setDrumValue(`run-min_${i}_sec`, runPaceSecRem);
+        });
+        stationMins.forEach((_, i) => {
+            setDrumValue(`station-min_${i}_min`, avgData.stationDetails[stationKeys[i]].min);
+            setDrumValue(`station-min_${i}_sec`, avgData.stationDetails[stationKeys[i]].sec);
+        });
+        setDrumValue('roxzoneMinAdv', avgData.roxzone.min);
+        setDrumValue('roxzoneSecAdv', avgData.roxzone.sec);
     }
 
     calculateResult();
 }
+
 
 // === Reset ===
 function resetAllInputs() {
