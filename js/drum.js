@@ -133,24 +133,23 @@ function createDrumHTML(id, max, isSmall = false) {
     return `<div class="drum-container ${sizeClass}" data-drum-id="${id}" data-max="${max}"></div>`;
 }
 
-function replaceDrum(minId, secId, wrapperSelector, isSmall = false) {
-    const wrapper = document.querySelector(wrapperSelector);
-    if (!wrapper) return;
-
+function replaceDrum(minId, secId, anchorId) {
     const minInput = document.getElementById(minId);
     const secInput = document.getElementById(secId);
     if (!minInput || !secInput) return;
+
+    const wrapper = minInput.closest('.time-inputs');
+    if (!wrapper) return;
 
     const initMin = parseInt(minInput.value || 0);
     const initSec = parseInt(secInput.value || 0);
     const minMax = parseInt(minInput.max || 30);
     const secMax = 59;
-    const sep = isSmall ? 'small' : '';
 
     wrapper.innerHTML = `
-        ${createDrumHTML(minId, minMax, isSmall)}
-        <span class="drum-separator ${sep}">:</span>
-        ${createDrumHTML(secId, secMax, isSmall)}
+        ${createDrumHTML(minId, minMax, false)}
+        <span class="drum-separator">:</span>
+        ${createDrumHTML(secId, secMax, false)}
     `;
 
     const minContainer = wrapper.querySelector(`[data-drum-id="${minId}"]`);
@@ -169,6 +168,7 @@ function replaceDrum(minId, secId, wrapperSelector, isSmall = false) {
     drumRollers[minId].setValue(initMin);
     drumRollers[secId].setValue(initSec);
 }
+
 
 function replaceClassDrums(minClass, secClass, isSmall = true) {
     const minInputs = document.querySelectorAll(`.${minClass}`);
@@ -215,12 +215,13 @@ function setDrumValue(id, val) {
 
 document.addEventListener('DOMContentLoaded', () => {
     // Simple mode
-    replaceDrum('runMin', 'runSec', '#simpleMode .input-group:nth-child(2) .time-inputs');
-    replaceDrum('roxzoneMin', 'roxzoneSec', '#simpleMode .input-group:nth-child(3) .time-inputs');
-    replaceDrum('stationsMin', 'stationsSec', '#simpleMode .input-group:nth-child(4) .time-inputs');
+    replaceDrum('runMin', 'runSec', '#runMin');
+    replaceDrum('roxzoneMin', 'roxzoneSec', '#roxzoneMin');
+    replaceDrum('stationsMin', 'stationsSec', '#stationsMin');
 
     // Advanced mode
     replaceClassDrums('run-min', 'run-sec');
     replaceClassDrums('station-min', 'station-sec');
-    replaceDrum('roxzoneMinAdv', 'roxzoneSecAdv', '#advancedMode > .input-group .time-inputs');
+    replaceDrum('roxzoneMinAdv', 'roxzoneSecAdv', '#roxzoneMinAdv');
 });
+
