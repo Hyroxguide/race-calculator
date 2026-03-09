@@ -1,0 +1,91 @@
+/* Drum Roller */
+.drum-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.drum-separator {
+    font-size: 24px;
+    font-weight: 600;
+    color: #FFFF00;
+}
+
+.drum-separator.small {
+    font-size: 18px;
+    color: #FF5722;
+}
+
+.drum-container {
+    position: relative;
+    width: 80px;
+    height: 56px;
+    overflow: hidden;
+    background: #000;
+    border: 2px solid #FFFF00;
+    border-radius: 8px;
+    cursor: ns-resize;
+    user-select: none;
+}
+
+.drum-container.small {
+    width: 50px;
+    height: 44px;
+    border-color: #FF5722;
+}
+
+.drum-container::before,
+.drum-container::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 30%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.drum-container::before {
+    top: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+}
+
+.drum-container::after {
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+}
+
+.drum-track {
+    position: absolute;
+    width: 100%;
+    transition: transform 0.15s ease-out;
+}
+
+.drum-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: #444;
+    transition: color 0.15s, font-size 0.15s;
+}
+
+.drum-container:not(.small) .drum-item {
+    height: 56px;
+    font-size: 20px;
+}
+
+.drum-container.small .drum-item {
+    height: 44px;
+    font-size: 16px;
+}
+
+.drum-item.active {
+    color: #FFFF00;
+    font-size: 22px;
+}
+
+.drum-container.small .drum-item.active {
+    color: #FF5722;
+    font-size: 18px;
+}
