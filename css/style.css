@@ -165,6 +165,7 @@ h3 {
 /* Input Groups */
 .input-group {
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .input-group label {
