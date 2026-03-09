@@ -110,7 +110,7 @@ class DrumRoller {
         // Mouse wheel
         this.container.addEventListener('wheel', (e) => {
             e.preventDefault();
-            const delta = e.deltaY > 0 ? -4 : 4;
+            const delta = e.deltaY > 0 ? -10 : 10;
             const newVal = Math.max(0, Math.min(this.max, this.value - delta));
             this.setValue(newVal);
             if (this.onChange) this.onChange(this.value);
