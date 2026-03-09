@@ -103,14 +103,6 @@ function fillAverageValues() {
         document.getElementById('roxzoneSec').value = avgData.roxzone.sec;
         document.getElementById('stationsMin').value = avgData.stations.min;
         document.getElementById('stationsSec').value = avgData.stations.sec;
-
-        // 드럼 동기화
-        setDrumValue('runMin', runPaceMin);
-        setDrumValue('runSec', runPaceSecRem);
-        setDrumValue('roxzoneMin', avgData.roxzone.min);
-        setDrumValue('roxzoneSec', avgData.roxzone.sec);
-        setDrumValue('stationsMin', avgData.stations.min);
-        setDrumValue('stationsSec', avgData.stations.sec);
     } else {
         const runTotalSec = timeToSeconds(avgData.run.min, avgData.run.sec);
         const runPaceSec = Math.round(runTotalSec / 8);
@@ -134,27 +126,13 @@ function fillAverageValues() {
 
         document.getElementById('roxzoneMinAdv').value = avgData.roxzone.min;
         document.getElementById('roxzoneSecAdv').value = avgData.roxzone.sec;
-
-        // 드럼 동기화
-        runMins.forEach((_, i) => {
-            setDrumValue(`run-min_${i}_min`, runPaceMin);
-            setDrumValue(`run-min_${i}_sec`, runPaceSecRem);
-        });
-        stationMins.forEach((_, i) => {
-            setDrumValue(`station-min_${i}_min`, avgData.stationDetails[stationKeys[i]].min);
-            setDrumValue(`station-min_${i}_sec`, avgData.stationDetails[stationKeys[i]].sec);
-        });
-        setDrumValue('roxzoneMinAdv', avgData.roxzone.min);
-        setDrumValue('roxzoneSecAdv', avgData.roxzone.sec);
     }
 
     calculateResult();
 }
 
-
 // === Reset ===
 function resetAllInputs() {
-    // Simple mode
     document.getElementById('runMin').value = 0;
     document.getElementById('runSec').value = 0;
     document.getElementById('roxzoneMin').value = 0;
@@ -162,14 +140,12 @@ function resetAllInputs() {
     document.getElementById('stationsMin').value = 0;
     document.getElementById('stationsSec').value = 0;
 
-    // Advanced mode
     document.querySelectorAll('.run-min, .run-sec, .station-min, .station-sec').forEach(input => {
         input.value = 0;
     });
     document.getElementById('roxzoneMinAdv').value = 0;
     document.getElementById('roxzoneSecAdv').value = 0;
 
-    // Reset display
     document.getElementById('predictedTime').textContent = '00:00:00';
     document.getElementById('comparison').textContent = '평균과 비교';
     document.getElementById('runBreakdown').textContent = '--:--';
@@ -188,11 +164,10 @@ function calculateResult() {
     let stationsTotal = 0;
 
     if (mode === 'simple') {
-        // Simple mode calculation
         const runMin = parseInt(document.getElementById('runMin').value || 0);
         const runSec = parseInt(document.getElementById('runSec').value || 0);
         const runPaceSec = timeToSeconds(runMin, runSec);
-        runTotal = runPaceSec * 8; // 8 runs of 1km each
+        runTotal = runPaceSec * 8;
 
         const roxzoneMin = parseInt(document.getElementById('roxzoneMin').value || 0);
         const roxzoneSec = parseInt(document.getElementById('roxzoneSec').value || 0);
@@ -202,8 +177,6 @@ function calculateResult() {
         const stationsSec = parseInt(document.getElementById('stationsSec').value || 0);
         stationsTotal = timeToSeconds(stationsMin, stationsSec);
     } else {
-        // Advanced mode calculation
-        // Sum all 8 runs
         const runMins = document.querySelectorAll('.run-min');
         const runSecs = document.querySelectorAll('.run-sec');
         runMins.forEach((input, index) => {
@@ -212,7 +185,6 @@ function calculateResult() {
             runTotal += timeToSeconds(min, sec);
         });
 
-        // Sum all 8 stations
         const stationMins = document.querySelectorAll('.station-min');
         const stationSecs = document.querySelectorAll('.station-sec');
         stationMins.forEach((input, index) => {
@@ -221,26 +193,21 @@ function calculateResult() {
             stationsTotal += timeToSeconds(min, sec);
         });
 
-        // Roxzone
         const roxzoneMin = parseInt(document.getElementById('roxzoneMinAdv').value || 0);
         const roxzoneSec = parseInt(document.getElementById('roxzoneSecAdv').value || 0);
         roxzoneTotal = timeToSeconds(roxzoneMin, roxzoneSec);
     }
 
-    // Calculate total
     const totalSeconds = runTotal + roxzoneTotal + stationsTotal;
 
-    // Skip if all zeros
     if (totalSeconds === 0) {
         document.getElementById('predictedTime').textContent = '00:00:00';
         document.getElementById('comparison').textContent = '기록을 입력해주세요';
         return;
     }
 
-    // Display predicted time
     document.getElementById('predictedTime').textContent = secondsToTime(totalSeconds);
 
-    // Calculate average comparison
     const avgTotal = timeToSeconds(avgData.overall.min, avgData.overall.sec);
     const diff = totalSeconds - avgTotal;
     const diffText = formatTimeDifference(diff);
@@ -257,12 +224,10 @@ function calculateResult() {
     
     document.getElementById('comparison').innerHTML = comparisonHTML;
 
-    // Calculate percentages
     const runPercent = (runTotal / totalSeconds * 100).toFixed(1);
     const roxzonePercent = (roxzoneTotal / totalSeconds * 100).toFixed(1);
     const stationsPercent = (stationsTotal / totalSeconds * 100).toFixed(1);
 
-    // Update breakdown
     document.getElementById('runBreakdown').textContent = `${secondsToTime(runTotal)} (${runPercent}%)`;
     document.getElementById('roxzoneBreakdown').textContent = `${secondsToTime(roxzoneTotal)} (${roxzonePercent}%)`;
     document.getElementById('stationsBreakdown').textContent = `${secondsToTime(stationsTotal)} (${stationsPercent}%)`;
@@ -297,7 +262,6 @@ https://hyroxguide.kr
             alert('복사에 실패했습니다. 다시 시도해주세요.');
         });
     } else {
-        // Fallback
         const textarea = document.createElement('textarea');
         textarea.value = shareText;
         textarea.style.position = 'fixed';
@@ -317,7 +281,6 @@ https://hyroxguide.kr
 
 // === Setup Input Listeners ===
 function setupInputListeners() {
-    // Simple mode inputs
     const simpleInputs = [
         'runMin', 'runSec',
         'roxzoneMin', 'roxzoneSec',
@@ -332,7 +295,6 @@ function setupInputListeners() {
         }
     });
 
-    // Advanced mode inputs
     document.querySelectorAll('.run-min, .run-sec, .station-min, .station-sec').forEach(input => {
         input.addEventListener('input', calculateResult);
         input.addEventListener('change', calculateResult);
@@ -348,21 +310,17 @@ function setupInputListeners() {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🏃 HYROX Calculator - Initialized');
     
-    // Setup event listeners
     setupModeToggle();
     setupInputListeners();
     
-    // Button listeners
     document.getElementById('fillBtn').addEventListener('click', fillAverageValues);
     document.getElementById('resetBtn').addEventListener('click', resetAllInputs);
     document.getElementById('shareBtn').addEventListener('click', shareResult);
     
-    // Division change
     document.querySelectorAll('input[name="division"]').forEach(radio => {
         radio.addEventListener('change', calculateResult);
     });
     
-    // Initial calculation
     fillAverageValues();
     
     console.log('✅ All systems ready!');
